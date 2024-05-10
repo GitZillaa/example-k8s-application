@@ -1,32 +1,14 @@
 name: k8s deployment  
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+on: [push]
 jobs:
   build-frontend:
-    runs-on: node:latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      run: npm install
-    - name: Build
-      run: npm run build
-    - name: List build artifacts
-      run: ls -la
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: frontend-build
-        path: frontend/dist
+      runs-on: ubuntu:latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Set up Node.js
+          uses: actions/setup-node@v2
+        - run: |
+              cd frontend &&
+              npm install &&
+              npm run build &&
+              ls -la
